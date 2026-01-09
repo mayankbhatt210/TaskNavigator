@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 import {
   View,
   ActivityIndicator,
@@ -6,18 +6,18 @@ import {
   Text,
   Alert,
   LogBox,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AuthProvider, AuthContext } from './src/auth/AuthContext';
-import LoginScreen from './src/screens/LoginScreen';
-import TodoDetailScreen from './src/screens/TodoDetailScreen';
-import TodoFormScreen from './src/screens/TodoFormScreen';
-import TodoListScreen from './src/screens/TodoListScreen';
-import { linking } from './src/utils/deepLinking';
-import CustomHeader from './src/components/CustomHeader';
-import { startSyncListener } from './src/utils/syncService';
+import { AuthProvider, AuthContext } from "./src/auth/AuthContext";
+import LoginScreen from "./src/screens/LoginScreen";
+import TodoDetailScreen from "./src/screens/TodoDetailScreen";
+import TodoFormScreen from "./src/screens/TodoFormScreen";
+import TodoListScreen from "./src/screens/TodoListScreen";
+import { linking } from "./src/utils/deepLinking";
+import CustomHeader from "./src/components/CustomHeader";
+import { startTodoSync } from "./src/utils/syncService";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,11 +25,11 @@ function AppNavigator() {
   const { token, loading, logout } = useContext(AuthContext);
 
   const logoutTap = () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
       {
-        text: 'Logout',
-        style: 'destructive',
+        text: "Logout",
+        style: "destructive",
         onPress: async () => {
           await logout();
         },
@@ -39,7 +39,7 @@ function AppNavigator() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -70,7 +70,7 @@ function AppNavigator() {
                       if (navigation.canGoBack()) {
                         navigation.goBack();
                       } else {
-                        navigation.replace('TodoList');
+                        navigation.replace("TodoList");
                       }
                     }}
                   />
@@ -106,7 +106,7 @@ function AppNavigator() {
 export default function App() {
   LogBox.ignoreAllLogs();
   useEffect(() => {
-    startSyncListener();
+    startTodoSync();
   }, []);
 
   return (
